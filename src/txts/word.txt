@@ -1,0 +1,3 @@
+i try to understand how the FileInputFormat work,and i do the
+following things,but it seems not work,and i do not know why,hope anyone
+can shed light on it
