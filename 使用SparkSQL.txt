@@ -1,0 +1,35 @@
+//获取sqlContext
+val conf = new SparkConf().setAppName("wordcount")
+val sc = new SparkContext(conf)
+val sqlContext = new SQLContext(sc)
+//创建DataFrame
+val df = sqlContext.read.json("hdfs://192.168.100.135:9000/students.json")
+
+
+// 将RDD隐式转化为DF
+import sqlContext.implicits._
+val studentsWithNameAge = Array(("leo",23),("jack",25)).toSeq
+val studentsWithNameAgeDF = sc.parallelize(studentsWithNameAge,2).toDF("name","age")
+
+
+// 在Scala中使用反射方式，进行RDD到DataFrame的转换，需要手动导入一个隐式转换
+import sqlContext.implicits._
+
+case class Student(id: Int, name:String, age:Int)
+
+// 这里其实就是一个普通的，元素为case class的RDD
+// 直接对它使用toDF()方法，即可转换为DataFrame
+val studentDF = sc.textFile("D://BigData//JetBrains//sparktest//src//main//java//sql//students.txt",1)
+.map{ line => line.split(",")}.map{ arr => Student(arr(0).trim().toInt,arr(1),arr(2).trim().toInt )}
+.toDF()
+
+
+// 常规操作
+df.show()
+df.printSchema()
+df.select("name").show()
+df.select(df("name"), df("age") + 1).show()
+df.filter(df("age") > 21).show()
+df.groupBy("age").count().show()
+
+

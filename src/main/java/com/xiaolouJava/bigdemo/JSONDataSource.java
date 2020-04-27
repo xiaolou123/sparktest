@@ -42,7 +42,13 @@ public class JSONDataSource {
         studentInfoJSONs.add("{\"name\":\"Marry\",\"age\":17}");
         studentInfoJSONs.add("{\"name\":\"Jack\",\"age\":19}");
         JavaRDD<String> studentInfoJSONsRDD = sc.parallelize(studentInfoJSONs);
-        DataFrame studentInfoDF = sqlContext.read().json(studentInfoJSONsRDD);
+        DataFrame studentInfosDF = sqlContext.read().json(studentInfoJSONsRDD);
+
+        // 针对学生基本信息DataFrame，注册临时表，然后查询分数大于80分的学生的基本信息
+        studentInfosDF.registerTempTable("student_infos");
+
+        String sql = "select name,age from"
+
 
     }
 }
