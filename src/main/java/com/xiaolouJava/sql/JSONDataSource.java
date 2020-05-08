@@ -30,7 +30,7 @@ public class JSONDataSource {
         SQLContext sqlContext = new SQLContext(sc);
 
         // 针对json文件，创建DataFrame（针对json文件创建DataFrame）
-        DataFrame studentScoresDF = sqlContext.read().json("hdfs://192.168.100.135:9000/spark-study/students.json");
+        DataFrame studentScoresDF = sqlContext.read().json("hdfs://hadoop02:9000/spark-study/students.json");
 
         // 针对学生成绩信息的DataFrame，注册临时表，查询分数大于80分的学生的姓名
         // （注册临时表，针对临时表执行sql语句）
@@ -113,6 +113,6 @@ public class JSONDataSource {
 
         // 将好学生的全部信息保存到一个json文件中去
         // （将DataFrame中的数据保存到外部的json文件中去）
-        goodStudentsDF.write().format("json").save("hdfs://192.168.100.135:9000/spark-study/good-students");
+        goodStudentsDF.write().format("json").save("hdfs://hadoop02:9000/spark-study/good-students");
     }
 }

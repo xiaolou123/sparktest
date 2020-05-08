@@ -10,7 +10,7 @@ object DataFrameCreate {
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
 
-    val df = sqlContext.read.json("hdfs://192.168.100.135:9000/students.json")
+    val df = sqlContext.read.json("hdfs://hadoop02:9000/students.json")
 
     df.show()
   }
